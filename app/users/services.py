@@ -19,7 +19,7 @@ class UserService():
         db.session.add(user)
         db.session.commit()
         return {'message': 'Success'}
-    
+
     @classmethod
     def validate_user_data(cls, name, surname, login, password):
         params = [name, surname, login]
@@ -34,5 +34,3 @@ class UserService():
         if user is not None:
             return False
         return True
-    
-    
