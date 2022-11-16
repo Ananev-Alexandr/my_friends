@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+
+  db-friends:
+    container_name: db-friends
+    restart: always
+    image: postgres
+    ports:
+      - 5432:5432
+    env_file:
+      - ./.env
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    volumes:
+      - friends-postgresql-data:/var/lib/postgresql/data/
+
+volumes:
+  friends-postgresql-data:
