@@ -34,3 +34,15 @@ class UserService():
         if user is not None:
             return False
         return True
+
+    @classmethod
+    def auth(cls, auth_params: dict) -> dict:
+        login = auth_params.get('login')
+        user_password = auth_params.get('password')
+        # loginman = LoginManager()
+        
+        user = User.query.filter(User.login==login).one_or_none()
+        if not user or not User.check_password(user, user_password):
+            print('Неверный логин или пароль!')
+            return False
+        return 'Success'

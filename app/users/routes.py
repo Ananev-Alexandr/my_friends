@@ -10,4 +10,11 @@ class Registration(Resource):
     def post(self):
         params = request.get_json()
         return UserService.creat_user(params)
+    
 
+@user_api_ns.route('/auth', methods=['POST'])
+class Аuthorization(Resource):
+
+    def post(self):
+        auth_params = request.get_json()
+        return UserService.auth(auth_params)
