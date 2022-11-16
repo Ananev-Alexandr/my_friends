@@ -14,11 +14,11 @@ class UserService():
         user.name = name
         user.surname = surname
         user.login = login
-        #TODO сделать хеш пароля
+        password = user.set_password(password)
         user.password_hash = password
         db.session.add(user)
         db.session.commit()
-        return {'message': 'sucssec'}
+        return {'message': 'Success'}
     
     @classmethod
     def validate_user_data(cls, name, surname, login, password):
