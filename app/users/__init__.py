@@ -1,7 +1,9 @@
 from flask import Blueprint
 from flask_restx import Api
+from flask_login import LoginManager
 
 
+login = LoginManager()
 user_bp = Blueprint('/', __name__)
 authorizations = {
     'jwt': {

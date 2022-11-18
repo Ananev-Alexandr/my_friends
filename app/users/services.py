@@ -1,5 +1,5 @@
 from data_base.models import User, db
-
+from flask_login import login_user, logout_user
 
 class UserService():
     @classmethod
@@ -36,13 +36,16 @@ class UserService():
         return True
 
     @classmethod
-    def auth(cls, auth_params: dict) -> dict:
-        login = auth_params.get('login')
-        user_password = auth_params.get('password')
-        # loginman = LoginManager()
-        
+    def login(cls, login_params: dict) -> dict:
+        login = login_params.get('login')
+        user_password = login_params.get('password')
         user = User.query.filter(User.login==login).one_or_none()
         if not user or not User.check_password(user, user_password):
             print('Неверный логин или пароль!')
             return False
+        login_user(user)
         return 'Success'
+    
+    @classmethod
+    def logout(cls):
+        return logout_user()

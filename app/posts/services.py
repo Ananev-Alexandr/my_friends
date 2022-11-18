@@ -1,4 +1,5 @@
 from data_base.models import Post, db
+from flask_login import current_user
 
 
 class PostService():
@@ -9,8 +10,7 @@ class PostService():
             return False
         post = Post()
         post.text_post = text_post
-        #TODO user_id, MOCK
-        post.user_id = 42
+        post.user_id = current_user.get_id()
         db.session.add(post)
         db.session.commit()
         return {'message': 'Success add post!'}
@@ -21,4 +21,3 @@ class PostService():
             print("Пост не может быть пустым!")
             return False
         return True
-        
