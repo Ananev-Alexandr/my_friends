@@ -31,6 +31,13 @@ class User(UserMixin, db.Model):
     
     def get_id(self):
         return str(self.id)
+    
+    def to_json(self):
+        return {
+            "name": self.name,
+            "surname": self.surname
+        }
+
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)

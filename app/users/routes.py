@@ -30,3 +30,10 @@ class Logout(Resource):
     @login_required
     def post(self):
         return UserService.logout()
+
+
+@user_api_ns.route('/all_users', methods=['GET'])
+class AllUsers(Resource):
+    @login_required
+    def get(self):
+        return UserService.return_all_users()

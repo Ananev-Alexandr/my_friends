@@ -49,3 +49,11 @@ class UserService():
     @classmethod
     def logout(cls):
         return logout_user()
+    
+    @classmethod 
+    def return_all_users(cls):
+        result = {"data": []}
+        posts :list[User]= User.query.order_by(User.name, User.surname).all()
+        for element in posts:
+            result["data"].append(element.to_json())
+        return result
