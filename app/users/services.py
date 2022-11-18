@@ -57,3 +57,50 @@ class UserService():
         for element in posts:
             result["data"].append(element.to_json())
         return result
+
+    @classmethod 
+    def filter_users(cls, params):
+        result = {"data": []}
+        if params.get('filter') is not None:
+            list_filter_value = params.get('filter')
+            if cls.validate_filter_user(list_filter_value) is False:
+                return 'incorrect data entered'
+            filter_value = cls.get_filter_value(list_filter_value)
+            query = User.query
+            for elem in filter_value:
+                query = query.filter(elem)
+            user_query = query.all()
+            for user_elem in user_query:
+                result["data"].append(user_elem.to_json())  
+            return result
+        
+        
+    @classmethod   
+    def validate_filter_user(cls, list_filter_value):
+        for filter_dict in list_filter_value:
+            for key in filter_dict:
+                if key not in ['name', 'surname']:
+                    return False
+            
+    @classmethod        
+    def get_filter_value(cls, list_filter_value):
+        dict_asociation = {
+            "name": User.name,
+            "surname": User.surname
+        }
+        list_filter = []
+        for elem in list_filter_value:
+            for key in elem:
+                list_filter.append(dict_asociation.get(key).ilike(f'%{elem.get(key)}%'))
+        return list_filter
+    
+    # def get_filter_value(cls, list_filter_value):
+    #     dict_asociation = {
+    #         "name": User.name,
+    #         "surname": User.surname
+    #     }
+    #     list_filter = []
+    #     for elem in list_filter_value:
+    #         for key in elem:
+    #             list_filter.append(dict_asociation.get(key) == elem.get(key))
+    #     return list_filter
