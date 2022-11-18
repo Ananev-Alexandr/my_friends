@@ -11,3 +11,10 @@ class Post(Resource):
     def post(self):
         params = request.get_json()
         return PostService.creat_post(params)
+    
+    
+@user_api_ns.route('/all_posts', methods=['GET'])
+class AllPost(Resource):
+    @login_required
+    def get(self):
+        return PostService.return_all_post()

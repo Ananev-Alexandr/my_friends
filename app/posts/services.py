@@ -1,7 +1,6 @@
 from data_base.models import Post, db
 from flask_login import current_user
 
-
 class PostService():
     @classmethod
     def creat_post(cls, params: dict) -> dict:
@@ -21,3 +20,11 @@ class PostService():
             print("Пост не может быть пустым!")
             return False
         return True
+    
+    @classmethod 
+    def return_all_post(cls):
+        result = {"data": []}
+        posts :list[Post]= Post.query.order_by(Post.publication_date).all()
+        for element in posts:
+            result["data"].append(element.to_json())
+        return result

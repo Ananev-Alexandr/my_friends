@@ -18,7 +18,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(20), index=True)
     surname = db.Column(db.String(20), index=True)
     password_hash = db.Column(db.String(128))
-    posts = db.relationship('Post', backref='author', lazy='dynamic')
+    posts = db.relationship('Post', backref='author')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -30,7 +30,6 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password_hash)
     
     def get_id(self):
-        # return super().get_id()
         return str(self.id)
 
 class Post(db.Model):
@@ -38,6 +37,15 @@ class Post(db.Model):
     text_post = db.Column(db.String(240))
     publication_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship('User', backref='post')
 
     def __repr__(self):
-        return '<Post {}>'.format(self.username)
+        return '<Post {}>'.format(self.text_post)
+    
+    def to_json(self):
+        return {
+            "text_post": self.text_post,
+            "publication_date": str(self.publication_date),
+            "author_name": self.user.name,
+            "author_surname": self.user.surname
+        }
