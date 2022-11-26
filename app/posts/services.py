@@ -40,3 +40,12 @@ class PostService():
         db.session.add(comment)
         db.session.commit()
         return {'message': 'Success add comment to post!'}
+    
+    @classmethod
+    def all_comment_post(cls, params):
+        post_id = params.get('post_id')
+        result = {"data": []}
+        com = Comment.query.filter(Comment.post_id == str(post_id)).all()
+        for element in com:
+            result["data"].append(element.to_json())
+        return result

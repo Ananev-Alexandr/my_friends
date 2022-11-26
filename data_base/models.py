@@ -67,4 +67,10 @@ class Comment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
-        return f'<Comment "{self.content[:20]}...">'
+        return f'<Comment "{self.text_comment[:20]}...">'
+    
+    def to_json(self):
+        return {
+            "text_comment": self.text_comment,
+            "user_id": self.user_id
+        }

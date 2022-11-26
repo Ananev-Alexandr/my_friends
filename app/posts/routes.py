@@ -30,3 +30,7 @@ class CommentPost(Resource):
     def get(self):
         params = request.get_json()
         return PostService.all_comment_post(params)
+    
+    #TODO delete post
+    #TODO like post
+    #TODO paginate
