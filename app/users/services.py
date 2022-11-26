@@ -93,14 +93,3 @@ class UserService():
             for key in elem:
                 list_filter.append(dict_asociation.get(key).ilike(f'%{elem.get(key)}%'))
         return list_filter
-    
-    # def get_filter_value(cls, list_filter_value):
-    #     dict_asociation = {
-    #         "name": User.name,
-    #         "surname": User.surname
-    #     }
-    #     list_filter = []
-    #     for elem in list_filter_value:
-    #         for key in elem:
-    #             list_filter.append(dict_asociation.get(key) == elem.get(key))
-    #     return list_filter

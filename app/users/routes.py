@@ -2,21 +2,23 @@ from app.users import user_api_ns
 from flask_restx import Resource
 from flask import request
 from app.users.services import UserService
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 
 @user_api_ns.route('/registration', methods=['POST', 'GET'])
 class Registration(Resource):
-    #TODO add check unauthorization
     def post(self):
+        if current_user.is_authenticated:
+            return 'you have to log out'
         params = request.get_json()
         return UserService.creat_user(params)
 
 
 @user_api_ns.route('/login', methods=['POST'])
 class Login(Resource):
-    #TODO add check unauthorization
     def post(self):
+        if current_user.is_authenticated:
+            return 'you have to log out'
         login_params = request.get_json()
         return UserService.login(login_params)
 
