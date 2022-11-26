@@ -13,11 +13,16 @@ class Post(Resource):
         return PostService.creat_post(params)
     
     
-@user_api_ns.route('/all_posts', methods=['GET'])
+@user_api_ns.route('/all_posts', methods=['GET', 'POST'])
 class AllPost(Resource):
     @login_required
     def get(self):
         return PostService.return_all_post()
+    
+    @login_required
+    def post(self):
+        params = request.get_json()
+        return PostService.like_post(params)
 
 @user_api_ns.route('/comment_post', methods=['POST', 'GET'])
 class CommentPost(Resource):
@@ -32,5 +37,4 @@ class CommentPost(Resource):
         return PostService.all_comment_post(params)
     
     #TODO delete post
-    #TODO like post
     #TODO paginate

@@ -1,4 +1,4 @@
-from data_base.models import Post, Comment, db
+from data_base.models import Post, Comment, LikePost, db
 from flask_login import current_user
 
 class PostService():
@@ -49,3 +49,21 @@ class PostService():
         for element in com:
             result["data"].append(element.to_json())
         return result
+    
+    @classmethod
+    def like_post(cls, params):
+        post_id = params.get('post_id')
+        likepost = LikePost.query.filter(LikePost.post_id==post_id).one_or_none()
+        if likepost is None:
+            lp = LikePost()
+            lp.post_id = post_id
+            lp.all_like = 1
+            lp.user_id = current_user.get_id()
+            db.session.add(lp)
+            db.session.commit()
+            return "you like it"
+        db.session.query(LikePost).\
+        filter(LikePost.post_id==post_id).\
+        update({'all_like': LikePost.all_like + 1})
+        db.session.commit()
+        return "you like it"
