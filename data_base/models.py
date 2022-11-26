@@ -19,6 +19,7 @@ class User(UserMixin, db.Model):
     surname = db.Column(db.String(20), index=True)
     password_hash = db.Column(db.String(128))
     posts = db.relationship('Post', backref='author')
+    comments = db.relationship('Comment', backref='post')
 
     def __repr__(self):
         return '<User {}>'.format(self.name)
@@ -45,6 +46,7 @@ class Post(db.Model):
     publication_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref='post')
+    # comments = db.relationship('Comment', backref='post')
 
     def __repr__(self):
         return '<Post {}>'.format(self.text_post)
@@ -56,3 +58,13 @@ class Post(db.Model):
             "author_name": self.user.name,
             "author_surname": self.user.surname
         }
+
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text_comment = db.Column(db.Text)
+    post_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return f'<Comment "{self.content[:20]}...">'

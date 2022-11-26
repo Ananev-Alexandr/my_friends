@@ -1,4 +1,4 @@
-from data_base.models import Post, db
+from data_base.models import Post, Comment, db
 from flask_login import current_user
 
 class PostService():
@@ -21,10 +21,22 @@ class PostService():
             return False
         return True
     
-    @classmethod 
+    @classmethod
     def return_all_post(cls):
         result = {"data": []}
         posts :list[Post]= Post.query.order_by(Post.publication_date).all()
         for element in posts:
             result["data"].append(element.to_json())
         return result
+
+    @classmethod
+    def comment_post(cls, params):
+        text_comment = params.get('text_comment')
+        post_id = params.get('post_id')
+        comment = Comment()
+        comment.text_comment = text_comment
+        comment.post_id = post_id
+        comment.user_id = current_user.get_id()
+        db.session.add(comment)
+        db.session.commit()
+        return {'message': 'Success add comment to post!'}

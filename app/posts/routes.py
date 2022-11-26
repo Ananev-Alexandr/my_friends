@@ -18,3 +18,10 @@ class AllPost(Resource):
     @login_required
     def get(self):
         return PostService.return_all_post()
+
+@user_api_ns.route('/comment_post', methods=['POST'])
+class CommentPost(Resource):
+    @login_required
+    def post(self):
+        params = request.get_json()
+        return PostService.comment_post(params)
