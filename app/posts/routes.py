@@ -36,6 +36,13 @@ class CommentPost(Resource):
         params = request.get_json()
         return PostService.all_comment_post(params)
     
+    
+@user_api_ns.route('/post_info/<post_id>', methods=['GET'])
+class PostInfo(Resource):
+    def get(self, post_id):
+        return PostService.get_info_post(post_id)
+    
+    
     #TODO delete post
     #TODO delete comments?
     #TODO paginate

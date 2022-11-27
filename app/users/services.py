@@ -21,7 +21,7 @@ class UserService():
         return {'message': 'Success'}
 
     @classmethod
-    def validate_user_data(cls, name, surname, login, password):
+    def validate_user_data(cls, name: str, surname: str, login: str, password: str) -> bool:
         params = [name, surname, login]
         for param in params:
             if param is None:
@@ -59,7 +59,7 @@ class UserService():
         return result
 
     @classmethod 
-    def filter_users(cls, params):
+    def filter_users(cls, params: dict) -> dict:
         result = {"data": []}
         if params.get('filter') is not None:
             list_filter_value = params.get('filter')
@@ -76,14 +76,14 @@ class UserService():
         
         
     @classmethod   
-    def validate_filter_user(cls, list_filter_value):
+    def validate_filter_user(cls, list_filter_value: list) -> bool:
         for filter_dict in list_filter_value:
             for key in filter_dict:
                 if key not in ['name', 'surname']:
                     return False
             
     @classmethod        
-    def get_filter_value(cls, list_filter_value):
+    def get_filter_value(cls, list_filter_value: list) -> list:
         dict_asociation = {
             "name": User.name,
             "surname": User.surname
