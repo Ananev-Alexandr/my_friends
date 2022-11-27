@@ -19,6 +19,7 @@ class User(UserMixin, db.Model):
     surname = db.Column(db.String(20), index=True)
     password_hash = db.Column(db.String(128))
     comments = db.relationship('Comment', backref='post')
+    like = db.relationship('LikePost', backref='like')
 
     def __repr__(self):
         return '<User {}>'.format(self.name)
@@ -77,8 +78,9 @@ class Comment(db.Model):
 
 class LikePost(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    all_like = db.Column(db.Integer, index=True, default=0)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    like_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     
     def __repr__(self):
         return '<LikePost {}>'.format(self.all_like)

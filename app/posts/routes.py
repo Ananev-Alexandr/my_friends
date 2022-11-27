@@ -37,4 +37,5 @@ class CommentPost(Resource):
         return PostService.all_comment_post(params)
     
     #TODO delete post
+    #TODO delete comments?
     #TODO paginate
