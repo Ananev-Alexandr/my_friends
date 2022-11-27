@@ -44,7 +44,7 @@ class UserService():
             print('Неверный логин или пароль!')
             return False
         login_user(user)
-        return 'Success'
+        return {'message': 'Success'}
     
     @classmethod
     def logout(cls):
@@ -64,7 +64,7 @@ class UserService():
         if params.get('filter') is not None:
             list_filter_value = params.get('filter')
             if cls.validate_filter_user(list_filter_value) is False:
-                return 'incorrect data entered'
+                return {'message': 'incorrect data entered'}
             filter_value = cls.get_filter_value(list_filter_value)
             query = User.query
             for elem in filter_value:

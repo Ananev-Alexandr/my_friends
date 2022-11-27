@@ -9,7 +9,7 @@ from flask_login import login_required, current_user
 class Registration(Resource):
     def post(self):
         if current_user.is_authenticated:
-            return 'you have to log out'
+            return {'message': 'you have to log out'}
         params = request.get_json()
         return UserService.creat_user(params)
 
@@ -18,7 +18,7 @@ class Registration(Resource):
 class Login(Resource):
     def post(self):
         if current_user.is_authenticated:
-            return 'you have to log out'
+            return {'message': 'you have to log out'}
         login_params = request.get_json()
         return UserService.login(login_params)
 
