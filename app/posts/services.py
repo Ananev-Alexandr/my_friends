@@ -55,19 +55,19 @@ class PostService():
         def result_all_likes():
             return LikePost.query.filter(LikePost.post_id == post_id).count()
         post_id = params.get('post_id')
-        likepost = LikePost.query.\
-            filter(LikePost.post_id==post_id,\
-                LikePost.user_id==current_user.get_id()).\
-                    one_or_none()
+        likepost = LikePost.query.filter(
+            LikePost.post_id==post_id,
+            LikePost.user_id==current_user.get_id()
+            ).one_or_none()
         if likepost is None:
             lp = LikePost()
             lp.post_id = post_id
             lp.user_id = current_user.get_id()
             db.session.add(lp)
             db.session.commit()
-            return f"you like it, and now {result_all_likes()} likes!"
+            return {'message': f"you like it, and now {result_all_likes()} likes!"}
         else:
             db.session.delete(likepost)
             db.session.commit()
-            return f"you delete like, and now {result_all_likes()} likes!"
+            return {'message': f"you delete like, and now {result_all_likes()} likes!"}
         

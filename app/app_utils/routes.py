@@ -6,8 +6,8 @@ from flask_restx import Resource
 class Utils(Resource):
     
     def get(self):
-        return "You are not authorizate!"
+        return {'message': "You are not authorizate!"}
     
     def post(self):
-        return "You are not authorizate!"
+        return {'message': "You are not authorizate!"}
     
