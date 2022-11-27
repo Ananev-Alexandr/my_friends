@@ -41,8 +41,7 @@ class UserService():
         user_password = login_params.get('password')
         user = User.query.filter(User.login==login).one_or_none()
         if not user or not User.check_password(user, user_password):
-            print('Неверный логин или пароль!')
-            return False
+            return {'message': 'Wrong login or password'}, 400
         login_user(user)
         return {'message': 'Success'}
     
